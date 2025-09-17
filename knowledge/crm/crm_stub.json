@@ -1,0 +1,67 @@
+[
+  {
+    "projectId": "PRJ-2025-001",
+    "name": "Emirates NBD Digital Transformation",
+    "status": "In Progress",
+    "owner": "Yasser Omar Zaki Shaaban",
+    "pipelineValue": "AED 2,500,000",
+    "expectedCloseDate": "2025-12-15",
+    "probability": 85,
+    "stage": "Proposal Submitted",
+    "products": ["Cloud Solutions", "Cyber Security", "Business Internet"],
+    "lastActivity": "2025-09-15",
+    "nextStep": "Final presentation scheduled"
+  },
+  {
+    "projectId": "PRJ-2025-002", 
+    "name": "Marriott Hotels Wi-Fi Upgrade",
+    "status": "Qualified Lead",
+    "owner": "Elham Husain Al Hammadi",
+    "pipelineValue": "AED 850,000",
+    "expectedCloseDate": "2025-11-30",
+    "probability": 65,
+    "stage": "Technical Evaluation",
+    "products": ["Wi-Fi as a Service", "Business TV"],
+    "lastActivity": "2025-09-10",
+    "nextStep": "Site survey completion"
+  },
+  {
+    "projectId": "PRJ-2025-003",
+    "name": "Abu Dhabi Municipality AI Initiative",
+    "status": "Negotiation",
+    "owner": "Khalid Riyad Badah",
+    "pipelineValue": "AED 4,200,000",
+    "expectedCloseDate": "2026-02-28",
+    "probability": 70,
+    "stage": "Contract Negotiation",
+    "products": ["AI Solutions", "Cloud Solutions", "Cyber Security"],
+    "lastActivity": "2025-09-16",
+    "nextStep": "Legal review completion"
+  },
+  {
+    "projectId": "PRJ-2025-004",
+    "name": "Aramex Logistics Connectivity",
+    "status": "Closed Won",
+    "owner": "Fawzia Abdalla",
+    "pipelineValue": "AED 1,200,000",
+    "expectedCloseDate": "2025-09-01",
+    "probability": 100,
+    "stage": "Implementation",
+    "products": ["Business Internet", "Collaboration Tools"],
+    "lastActivity": "2025-09-14",
+    "nextStep": "Phase 2 rollout planning"
+  },
+  {
+    "projectId": "PRJ-2025-005",
+    "name": "Jumeirah Group Payment Solutions",
+    "status": "Discovery",
+    "owner": "Stela Paneva",
+    "pipelineValue": "AED 650,000",
+    "expectedCloseDate": "2025-12-31",
+    "probability": 40,
+    "stage": "Needs Assessment",
+    "products": ["UTap Payment Solutions", "Business Internet"],
+    "lastActivity": "2025-09-12",
+    "nextStep": "Requirements gathering workshop"
+  }
+]

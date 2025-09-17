@@ -1,0 +1,28 @@
+{
+  "format": "DEPA",
+  "description": "Define → Explain → Prove → Anticipate → Roadmap framework for all AI outputs",
+  "template": {
+    "define": "",
+    "explain": "",
+    "prove": "",
+    "anticipate": "",
+    "roadmap": ""
+  },
+  "guidelines": {
+    "define": "Clearly state the objective, target audience, and key message",
+    "explain": "Describe the solution, features, and benefits in detail",
+    "prove": "Provide evidence, metrics, case studies, or social proof",
+    "anticipate": "Address potential objections, concerns, or competitive responses",
+    "roadmap": "Outline next steps, implementation timeline, and success metrics"
+  },
+  "maxLength": {
+    "define": "2 sentences",
+    "explain": "2 sentences or 1 table",
+    "prove": "2 sentences or relevant metrics",
+    "anticipate": "2 sentences",
+    "roadmap": "2 sentences or timeline table"
+  },
+  "tone": "business-cushion-economy",
+  "language": "English",
+  "region": "UAE B2B"
+}

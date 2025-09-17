@@ -1,0 +1,100 @@
+{
+  "director": {
+    "name": "Yasser Omar Zaki Shaaban",
+    "role": "Director",
+    "level": 1,
+    "agentImplemented": true,
+    "avatar": "/assets/avatars/yasser.jpg",
+    "specializations": ["Strategic Planning", "Market Analysis", "Partnership Development"],
+    "permissions": ["all"]
+  },
+  "seniorManagers": [
+    {
+      "name": "Elham Husain Al Hammadi",
+      "role": "Senior Manager",
+      "level": 2,
+      "agentImplemented": false,
+      "avatar": "/assets/avatars/elham.jpg",
+      "specializations": ["Enterprise Sales", "Solution Architecture"],
+      "permissions": ["view_budgets", "approve_proposals"]
+    },
+    {
+      "name": "Fawzia Abdalla",
+      "role": "Senior Manager", 
+      "level": 2,
+      "agentImplemented": false,
+      "avatar": "/assets/avatars/fawzia.jpg",
+      "specializations": ["Digital Transformation", "Customer Success"],
+      "permissions": ["view_budgets", "approve_proposals"]
+    },
+    {
+      "name": "Khalid Riyad Badah",
+      "role": "Senior Manager",
+      "level": 2,
+      "agentImplemented": false,
+      "avatar": "/assets/avatars/khalid.jpg",
+      "specializations": ["Technical Solutions", "Product Management"],
+      "permissions": ["view_budgets", "approve_proposals"]
+    },
+    {
+      "name": "Stela Paneva",
+      "role": "Senior Manager",
+      "level": 2,
+      "agentImplemented": false,
+      "avatar": "/assets/avatars/stela.jpg",
+      "specializations": ["Marketing Strategy", "Brand Management"],
+      "permissions": ["view_budgets", "approve_proposals"]
+    }
+  ],
+  "managers": [
+    {
+      "name": "Fadhal Abdul Majeed",
+      "role": "Manager",
+      "level": 3,
+      "agentImplemented": false,
+      "avatar": "/assets/avatars/fadhal.jpg",
+      "specializations": ["Operations Management", "Process Optimization"],
+      "permissions": ["create_proposals", "manage_projects"]
+    },
+    {
+      "name": "Lina Owis",
+      "role": "Manager",
+      "level": 3,
+      "agentImplemented": false,
+      "avatar": "/assets/avatars/lina.jpg",
+      "specializations": ["Account Management", "Customer Relations"],
+      "permissions": ["create_proposals", "manage_projects"]
+    }
+  ],
+  "specialists": [
+    {
+      "name": "Mohammad Malkawi",
+      "role": "Specialist",
+      "level": 4,
+      "agentImplemented": false,
+      "avatar": "/assets/avatars/mohammad.jpg",
+      "specializations": ["Technical Support", "Implementation"],
+      "permissions": ["create_content", "technical_analysis"]
+    },
+    {
+      "name": "Maryam Bakhit Alsuwaidi",
+      "role": "Specialist",
+      "level": 4,
+      "agentImplemented": false,
+      "avatar": "/assets/avatars/maryam.jpg",
+      "specializations": ["Market Research", "Content Creation"],
+      "permissions": ["create_content", "market_analysis"]
+    },
+    {
+      "name": "Sara Abdelaziz Alhammadi",
+      "role": "Specialist",
+      "level": 4,
+      "agentImplemented": false,
+      "avatar": "/assets/avatars/sara.jpg",
+      "specializations": ["Digital Marketing", "Social Media"],
+      "permissions": ["create_content", "digital_campaigns"]
+    }
+  ],
+  "displayOrder": "hierarchy",
+  "alternativeOrder": "alphabetical"
+}

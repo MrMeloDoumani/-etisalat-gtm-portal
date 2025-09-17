@@ -1,0 +1,135 @@
+{
+  "tone": "business-cushion-economy",
+  "description": "Simple, clear, direct communication focusing on convenience and comfort",
+  "attributes": [
+    "Concise and practical",
+    "Clear value proposition",
+    "Comfort-focused benefits",
+    "Economic efficiency",
+    "Professional yet approachable",
+    "UAE cultural sensitivity",
+    "Solution-oriented",
+    "Trust-building"
+  ],
+  "mediums": {
+    "flyer": {
+      "targetAudience": "Business decision makers and SMB owners",
+      "tone": "business-cushion-economy",
+      "sentimentFlag": "professional-confidence",
+      "structure": "Headline → Subhead → Benefits → CTA",
+      "starterSentences": [
+        "Transform your business operations with...",
+        "Streamline your workflow and reduce costs with...",
+        "Experience seamless connectivity that grows with your business...",
+        "Secure your business future with reliable...",
+        "Empower your team with professional-grade..."
+      ]
+    },
+    "brochure": {
+      "targetAudience": "Enterprise and medium business stakeholders",
+      "tone": "business-cushion-economy",
+      "sentimentFlag": "trust-authority",
+      "structure": "Title → Section 1 → Section 2 → Section 3 → CTA",
+      "starterSentences": [
+        "Discover comprehensive solutions designed for your industry...",
+        "Our proven track record demonstrates consistent value delivery...",
+        "Industry-leading technology meets local expertise in...",
+        "Comprehensive support ensures your business continuity...",
+        "Strategic partnerships enable scalable growth through..."
+      ]
+    },
+    "website_landing_page": {
+      "targetAudience": "Online prospects and self-service customers",
+      "tone": "business-cushion-economy",
+      "sentimentFlag": "convenience-efficiency",
+      "structure": "Hero Headline → Subhead → Value Blocks → CTA",
+      "starterSentences": [
+        "Unlock advanced connectivity that accelerates your business growth...",
+        "Experience the difference with UAE's most trusted business partner...",
+        "Simplify your operations with intelligent solutions that adapt...",
+        "Join thousands of businesses already benefiting from...",
+        "Ready to transform your business? Start with proven solutions..."
+      ]
+    },
+    "email": {
+      "targetAudience": "Existing customers and qualified prospects",
+      "tone": "business-cushion-economy",
+      "sentimentFlag": "personal-professional",
+      "structure": "Subject → Preheader → Body → CTA",
+      "starterSentences": [
+        "Your business deserves solutions that work as hard as you do...",
+        "We understand the challenges you face in today's market...",
+        "Exclusive opportunity to enhance your business capabilities...",
+        "Take the next step toward operational excellence...",
+        "Personalized solutions tailored to your specific needs..."
+      ]
+    },
+    "social": {
+      "targetAudience": "Business community and industry followers",
+      "tone": "business-cushion-economy",
+      "sentimentFlag": "community-success",
+      "structure": "Caption → CTA",
+      "starterSentences": [
+        "Success stories from UAE businesses choosing smart solutions...",
+        "Innovation meets reliability in our latest business offering...",
+        "Join the conversation about digital transformation...",
+        "Celebrating another milestone with our business partners...",
+        "Behind the scenes: How we deliver excellence for..."
+      ]
+    },
+    "sms": {
+      "targetAudience": "Mobile-first business contacts",
+      "tone": "business-cushion-economy",
+      "sentimentFlag": "urgency-value",
+      "structure": "Hook → Value → CTA",
+      "starterSentences": [
+        "Limited time: Upgrade your business connectivity for less...",
+        "Your business account qualifies for exclusive benefits...",
+        "Quick reminder: Your consultation is scheduled for...",
+        "New: Simplified solutions designed for businesses like yours...",
+        "Act now: Special rates available for qualified businesses..."
+      ]
+    },
+    "webinar": {
+      "targetAudience": "Industry professionals and business leaders",
+      "tone": "business-cushion-economy",
+      "sentimentFlag": "expertise-education",
+      "structure": "Title → Introduction → Key Points → Q&A → Follow-up",
+      "starterSentences": [
+        "Welcome to an exclusive session on transforming your business...",
+        "Today's agenda focuses on practical solutions you can implement...",
+        "Industry experts share proven strategies for sustainable growth...",
+        "Real-world case studies demonstrate measurable business impact...",
+        "Your questions drive our discussion on optimizing business operations..."
+      ]
+    },
+    "image_prompt": {
+      "targetAudience": "Visual content consumers across all segments",
+      "tone": "business-cushion-economy",
+      "sentimentFlag": "professional-aspirational",
+      "structure": "Single descriptive prompt",
+      "starterSentences": [
+        "Professional business environment showcasing modern connectivity solutions...",
+        "UAE business team collaborating with advanced technology...",
+        "Clean, modern office space with integrated digital solutions...",
+        "Business professionals experiencing seamless connectivity...",
+        "Contemporary workspace demonstrating efficiency and innovation..."
+      ]
+    }
+  },
+  "sentimentFlags": {
+    "professional-confidence": "Authoritative yet approachable, inspiring trust and competence",
+    "trust-authority": "Establishing credibility through expertise and proven results",
+    "convenience-efficiency": "Emphasizing ease of use and operational improvements",
+    "personal-professional": "Balancing human connection with business professionalism",
+    "community-success": "Highlighting collective achievements and shared victories",
+    "urgency-value": "Creating appropriate urgency while emphasizing clear value",
+    "expertise-education": "Positioning as thought leader while providing practical insights",
+    "professional-aspirational": "Inspiring business growth and success"
+  },
+  "brandIntegration": {
+    "alwaysInclude": ["e& brand reference", "UAE market focus", "business-grade quality"],
+    "avoidTerms": ["cheap", "basic", "limited", "outdated"],
+    "preferredTerms": ["professional", "reliable", "comprehensive", "scalable", "trusted"]
+  }
+}

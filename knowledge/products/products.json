@@ -1,0 +1,141 @@
+[
+  {
+    "id": "mobile-value-plans",
+    "name": "Mobile Value Plans",
+    "category": "Mobile",
+    "tagline": "Affordable business mobility solutions",
+    "benefits": [
+      "Cost-effective communication",
+      "Reliable network coverage",
+      "Business-grade support"
+    ],
+    "url": "https://www.etisalat.ae/en/smb/product/mobile/value-plans.html",
+    "targetSegment": ["startup", "small-business"]
+  },
+  {
+    "id": "mobile-premium-plans",
+    "name": "Mobile Premium Plans", 
+    "category": "Mobile",
+    "tagline": "Enhanced business mobility with premium features",
+    "benefits": [
+      "Unlimited data options",
+      "International roaming",
+      "Priority network access",
+      "Advanced business features"
+    ],
+    "url": "https://www.etisalat.ae/en/smb/product/mobile/premium-plans.html",
+    "targetSegment": ["medium-business", "enterprise"]
+  },
+  {
+    "id": "business-internet",
+    "name": "Business Internet",
+    "category": "Fixed Services",
+    "tagline": "High-speed internet for business operations",
+    "benefits": [
+      "Dedicated bandwidth",
+      "99.9% uptime SLA",
+      "24/7 technical support",
+      "Scalable solutions"
+    ],
+    "url": "https://www.etisalat.ae/en/smb/product/fixed-services/internet.html",
+    "targetSegment": ["small-business", "medium-business", "enterprise"]
+  },
+  {
+    "id": "wifi-as-a-service",
+    "name": "Wi-Fi as a Service",
+    "category": "Fixed Services",
+    "tagline": "Managed Wi-Fi solutions for businesses",
+    "benefits": [
+      "Professional installation",
+      "Managed maintenance",
+      "Guest access controls",
+      "Usage analytics"
+    ],
+    "url": "https://www.etisalat.ae/en/smb/product/fixed-services/wifi-as-a-service.html",
+    "targetSegment": ["hospitality", "retail", "medium-business"]
+  },
+  {
+    "id": "cloud-solutions",
+    "name": "Cloud Solutions",
+    "category": "Digital Products",
+    "tagline": "Scalable cloud infrastructure for modern businesses",
+    "benefits": [
+      "Data security and backup",
+      "Scalable resources",
+      "Cost optimization",
+      "UAE-based data centers"
+    ],
+    "url": "https://www.etisalat.ae/en/smb/product/digital-products/cloud-solution.html",
+    "targetSegment": ["medium-business", "enterprise", "government"]
+  },
+  {
+    "id": "cyber-security",
+    "name": "Cyber Security",
+    "category": "Digital Products", 
+    "tagline": "Comprehensive security solutions for business protection",
+    "benefits": [
+      "Threat detection and prevention",
+      "24/7 security monitoring",
+      "Compliance support",
+      "Employee security training"
+    ],
+    "url": "https://www.etisalat.ae/en/smb/product/digital-products/cyber-security.html",
+    "targetSegment": ["medium-business", "enterprise", "government", "healthcare"]
+  },
+  {
+    "id": "ai-solutions",
+    "name": "AI Solutions",
+    "category": "Digital Products",
+    "tagline": "Artificial intelligence solutions for business automation",
+    "benefits": [
+      "Process automation",
+      "Data analytics and insights",
+      "Customer service enhancement",
+      "Operational efficiency"
+    ],
+    "url": "https://www.etisalat.ae/en/smb/product/digital-products/ai-solutions.html",
+    "targetSegment": ["medium-business", "enterprise"]
+  },
+  {
+    "id": "payment-solutions",
+    "name": "UTap Payment Solutions",
+    "category": "Digital Products",
+    "tagline": "Comprehensive payment solution with simplified collections",
+    "benefits": [
+      "Streamlined payment automation",
+      "Multiple payment methods",
+      "Real-time transaction tracking",
+      "Simplified collections process"
+    ],
+    "url": "https://www.etisalat.ae/en/smb/product/digital-products/payment-solutions.html",
+    "targetSegment": ["retail", "small-business", "medium-business"]
+  },
+  {
+    "id": "collaboration-tools",
+    "name": "Collaboration Tools",
+    "category": "Digital Products",
+    "tagline": "Microsoft productivity suite and collaboration platforms",
+    "benefits": [
+      "Microsoft 365 integration",
+      "Team collaboration features",
+      "Cloud-based productivity",
+      "Remote working enablement"
+    ],
+    "url": "https://www.etisalat.ae/en/smb/product/digital-products/collaboration.html",
+    "targetSegment": ["small-business", "medium-business", "enterprise"]
+  },
+  {
+    "id": "business-tv",
+    "name": "Business TV & StarzOn",
+    "category": "Fixed Services",
+    "tagline": "Entertainment and digital signage solutions for businesses",
+    "benefits": [
+      "Wide range of content",
+      "Digital signage capabilities",
+      "Customer engagement",
+      "Hospitality entertainment"
+    ],
+    "url": "https://www.etisalat.ae/en/smb/product/fixed-services/business-tv.html",
+    "targetSegment": ["hospitality", "retail", "healthcare"]
+  }
+]
