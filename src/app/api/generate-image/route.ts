@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function createDesignPrompt(type: string, content: any): string {
+function createDesignPrompt(type: string, content: { headline: string; subheading?: string; bullets?: string[]; cta?: string; }): string {
   const baseStyle = "professional business design, clean modern layout, etisalat red and white color scheme";
   
   switch (type) {
@@ -71,7 +71,7 @@ function createDesignPrompt(type: string, content: any): string {
   }
 }
 
-async function generateMockImage(type: string, content: any, dimensions: { width: number; height: number }): Promise<string> {
+async function generateMockImage(type: string, content: { headline?: string; subheading?: string; bullets?: string[]; cta?: string; }, dimensions: { width: number; height: number }): Promise<string> {
   // Create a canvas element for image generation
   const canvas = createCanvas(dimensions.width, dimensions.height);
   const ctx = canvas.getContext('2d');
@@ -191,7 +191,7 @@ function generatePlaceholderImage(width: number, height: number): string {
   `)}`;
 }
 
-function wrapText(ctx: any, text: string, x: number, y: number, maxWidth: number, lineHeight: number) {
+function wrapText(ctx: { measureText: (text: string) => { width: number }; fillText: (text: string, x: number, y: number) => void; }, text: string, x: number, y: number, maxWidth: number, lineHeight: number) {
   const words = text.split(' ');
   let line = '';
   let currentY = y;
@@ -212,7 +212,7 @@ function wrapText(ctx: any, text: string, x: number, y: number, maxWidth: number
   ctx.fillText(line, x, currentY);
 }
 
-function roundRect(ctx: any, x: number, y: number, width: number, height: number, radius: number) {
+function roundRect(ctx: { beginPath?: () => void; moveTo?: (x: number, y: number) => void; lineTo?: (x: number, y: number) => void; quadraticCurveTo?: (x1: number, y1: number, x2: number, y2: number) => void; closePath?: () => void; fill?: () => void; }, x: number, y: number, width: number, height: number, radius: number) {
   ctx.beginPath?.();
   ctx.moveTo?.(x + radius, y);
   ctx.lineTo?.(x + width - radius, y);
