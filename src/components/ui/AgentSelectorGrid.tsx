@@ -36,11 +36,19 @@ export function AgentSelectorGrid({ onAgentSelect }: AgentSelectorGridProps) {
     specialists: TeamMember[];
   } | null>(null);
   const [loading, setLoading] = useState(true);
-  const [usageData, setUsageData] = useState<Record<string, any>>({});
+  const [usageData, setUsageData] = useState<Record<string, {
+    lastUsed: string;
+    lastDuration?: number;
+    totalSessions?: number;
+  }>>({});
   const toast = useToast();
 
   const loadUsageData = () => {
-    const usage: Record<string, any> = {};
+    const usage: Record<string, {
+      lastUsed: string;
+      lastDuration?: number;
+      totalSessions?: number;
+    }> = {};
     
     // Load usage data from localStorage
     for (let i = 0; i < localStorage.length; i++) {

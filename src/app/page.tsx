@@ -6,15 +6,13 @@ import {
   Heading,
   Text,
   VStack,
-  HStack,
-  Button,
   useDisclosure,
 } from "@chakra-ui/react";
 import { AgentSelectorGrid } from "@/components/ui/AgentSelectorGrid";
 import { ChatModal } from "@/components/chat/ChatModal";
 import { ProjectStatusBoard } from "@/components/ui/ProjectStatusBoard";
 import { NavigationHeader } from "@/components/ui/NavigationHeader";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface TeamMember {
   name: string;
