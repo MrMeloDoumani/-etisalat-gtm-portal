@@ -26,7 +26,19 @@ export async function POST(request: NextRequest) {
 - Local testimonial or case study snippet
 - Simple call-to-action for consultation
 
-Would you like me to develop any specific section further, or do you have particular messaging requirements for your target audience?`;
+🎨 **Generate Visual Flyer**: I can also create an actual flyer image for you! Would you like me to generate a professional flyer design with these elements?
+
+Would you like me to develop any specific section further, or shall I create the visual design?`;
+
+      // Return with image generation capability
+      return NextResponse.json({
+        message: response,
+        timestamp: new Date().toISOString(),
+        agent: agent,
+        success: true,
+        hasImageGeneration: true,
+        imageType: "flyer"
+      });
 
     } else if (lowerMessage.includes("strategy") || lowerMessage.includes("planning")) {
       response = `Great question about GTM strategy! For the UAE SMB market, I'd recommend a multi-layered approach:
@@ -95,7 +107,18 @@ Would you like me to analyze any specific competitor or develop counter-position
 - Clear pricing tiers for easy comparison
 - Strong call-to-action for business consultation
 
-Would you like me to develop content for any specific section?`;
+🎨 **Generate Visual Brochure**: I can create a professional brochure design with these elements! Shall I generate the visual layout for you?
+
+Would you like me to develop content for any specific section or create the visual design?`;
+
+      return NextResponse.json({
+        message: response,
+        timestamp: new Date().toISOString(),
+        agent: agent,
+        success: true,
+        hasImageGeneration: true,
+        imageType: "brochure"
+      });
 
     } else if (lowerMessage.includes("email") || lowerMessage.includes("campaign")) {
       response = `I can help you craft an effective email campaign! Here's my recommendation:

@@ -32,6 +32,9 @@ interface Message {
   sender: "user" | "agent";
   content: string;
   timestamp: Date;
+  hasImageGeneration?: boolean;
+  imageType?: string;
+  generatedImage?: string;
   result?: {
     depa?: Record<string, string>;
     starterSentences?: string[];
@@ -47,6 +50,7 @@ export function ChatInterface({ agent }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [currentResult, setCurrentResult] = useState<{
     depa?: Record<string, string>;
     starterSentences?: string[];
@@ -115,6 +119,8 @@ export function ChatInterface({ agent }: ChatInterfaceProps) {
         sender: "agent",
         content: data.message || "I've generated a response for you.",
         timestamp: new Date(),
+        hasImageGeneration: data.hasImageGeneration,
+        imageType: data.imageType,
       };
 
       setMessages(prev => [...prev, agentMessage]);
@@ -133,6 +139,67 @@ export function ChatInterface({ agent }: ChatInterfaceProps) {
     }
   };
 
+  const generateImage = async (message: Message) => {
+    setIsGeneratingImage(true);
+    
+    try {
+      const response = await fetch("/api/generate-image", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          type: message.imageType || "flyer",
+          content: {
+            headline: message.imageType === "flyer" ? "Streamline Your Business Operations" : "Transform Your Business with e& Solutions",
+            subheading: "Professional connectivity for growing businesses",
+            bullets: [
+              "99.9% uptime reliability",
+              "24/7 local UAE support", 
+              "Scalable solutions",
+              "Trusted by 10,000+ businesses"
+            ],
+            cta: "Get Started Today"
+          },
+          dimensions: {
+            width: message.imageType === "brochure" ? 600 : 800,
+            height: message.imageType === "brochure" ? 800 : 1000
+          }
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to generate image");
+      }
+
+      const data = await response.json();
+
+      // Update the message with the generated image
+      setMessages(prev => prev.map(msg => 
+        msg.id === message.id 
+          ? { ...msg, generatedImage: data.imageUrl }
+          : msg
+      ));
+
+      toast({
+        title: "Image Generated!",
+        description: `${message.imageType || 'Image'} has been created successfully`,
+        status: "success",
+        duration: 3000,
+      });
+
+    } catch (error) {
+      console.error("Error generating image:", error);
+      toast({
+        title: "Error",
+        description: "Failed to generate image",
+        status: "error",
+        duration: 3000,
+      });
+    } finally {
+      setIsGeneratingImage(false);
+    }
+  };
 
   return (
     <HStack h="100%" spacing={0} align="stretch">
@@ -185,7 +252,61 @@ export function ChatInterface({ agent }: ChatInterfaceProps) {
                           >
                             Copy Response
                           </Button>
+                          
+                          {message.hasImageGeneration && (
+                            <Button
+                              size="xs"
+                              colorScheme="brand"
+                              onClick={() => generateImage(message)}
+                              isLoading={isGeneratingImage}
+                            >
+                              🎨 Generate {message.imageType || 'Image'}
+                            </Button>
+                          )}
                         </HStack>
+                      )}
+
+                      {message.generatedImage && (
+                        <Box mt={3} p={3} bg="white" borderRadius="md" border="1px solid" borderColor="gray.200">
+                          <VStack spacing={3} align="start">
+                            <Text fontSize="sm" fontWeight="medium" color="brand.500">
+                              Generated {message.imageType || 'Image'}:
+                            </Text>
+                            <Box
+                              as="img"
+                              src={message.generatedImage}
+                              alt={`Generated ${message.imageType || 'image'}`}
+                              maxW="300px"
+                              maxH="400px"
+                              borderRadius="md"
+                              border="1px solid"
+                              borderColor="gray.200"
+                            />
+                            <HStack spacing={2}>
+                              <Button
+                                size="xs"
+                                colorScheme="brand"
+                                onClick={() => {
+                                  const link = document.createElement('a');
+                                  link.href = message.generatedImage!;
+                                  link.download = `${message.imageType || 'image'}-${Date.now()}.png`;
+                                  link.click();
+                                }}
+                              >
+                                Download
+                              </Button>
+                              <Button
+                                size="xs"
+                                variant="outline"
+                                onClick={() => {
+                                  window.open(message.generatedImage, '_blank');
+                                }}
+                              >
+                                View Full Size
+                              </Button>
+                            </HStack>
+                          </VStack>
+                        </Box>
                       )}
                       
                       <Text fontSize="xs" opacity={0.7}>
