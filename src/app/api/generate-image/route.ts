@@ -74,7 +74,7 @@ function createDesignPrompt(type: string, content: { headline: string; subheadin
 async function generateMockImage(type: string, content: { headline?: string; subheading?: string; bullets?: string[]; cta?: string; }, dimensions: { width: number; height: number }): Promise<string> {
   // Create a canvas element for image generation
   const canvas = createCanvas(dimensions.width, dimensions.height);
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext();
   
   // Set background
   const gradient = ctx.createLinearGradient(0, 0, 0, dimensions.height);
