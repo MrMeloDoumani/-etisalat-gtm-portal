@@ -115,13 +115,9 @@ export function ChatInterface({ agent }: ChatInterfaceProps) {
         sender: "agent",
         content: data.message || "I've generated a response for you.",
         timestamp: new Date(),
-        result: data.result,
       };
 
       setMessages(prev => [...prev, agentMessage]);
-      if (data.result) {
-        setCurrentResult(data.result);
-      }
 
     } catch (error) {
       console.error("Error:", error);
@@ -170,93 +166,26 @@ export function ChatInterface({ agent }: ChatInterfaceProps) {
                 >
                   <CardBody py={3} px={4}>
                     <VStack spacing={2} align="start">
-                      <Text fontSize="sm">{message.content}</Text>
+                      <Text fontSize="sm" whiteSpace="pre-wrap">{message.content}</Text>
                       
-                      {message.result && (
-                        <Box mt={3} p={4} bg="gray.50" borderRadius="md" borderLeft="4px solid" borderColor="brand.500">
-                          <HStack justify="space-between" mb={3}>
-                            <Badge colorScheme="green" size="sm">
-                              DEPA Framework Result
-                            </Badge>
-                            <HStack spacing={2}>
-                              <Button
-                                size="xs"
-                                variant="outline"
-                                onClick={() => {
-                                  const text = JSON.stringify(message.result, null, 2);
-                                  navigator.clipboard.writeText(text);
-                                  toast({
-                                    title: "Copied",
-                                    description: "Result copied to clipboard",
-                                    status: "success",
-                                    duration: 2000,
-                                  });
-                                }}
-                              >
-                                Copy
-                              </Button>
-                              <Button
-                                size="xs"
-                                colorScheme="brand"
-                                onClick={() => {
-                                  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(message.result, null, 2));
-                                  const downloadAnchorNode = document.createElement('a');
-                                  downloadAnchorNode.setAttribute("href", dataStr);
-                                  downloadAnchorNode.setAttribute("download", `depa-result-${Date.now()}.json`);
-                                  document.body.appendChild(downloadAnchorNode);
-                                  downloadAnchorNode.click();
-                                  downloadAnchorNode.remove();
-                                }}
-                              >
-                                Export
-                              </Button>
-                              <Button
-                                size="xs"
-                                colorScheme="orange"
-                                onClick={() => {
-                                  toast({
-                                    title: "Approval Requested",
-                                    description: "Content sent for approval workflow",
-                                    status: "info",
-                                    duration: 3000,
-                                  });
-                                }}
-                              >
-                                Request Approval
-                              </Button>
-                            </HStack>
-                          </HStack>
-                          
-                          {message.result.depa && (
-                            <VStack spacing={3} align="start">
-                              {Object.entries(message.result.depa).map(([key, value]) => (
-                                <Box key={key} w="100%">
-                                  <Text fontSize="xs" fontWeight="bold" color="brand.500" textTransform="uppercase" mb={1}>
-                                    {key}
-                                  </Text>
-                                  <Text fontSize="sm" color="gray.700" whiteSpace="pre-wrap">
-                                    {value as string}
-                                  </Text>
-                                </Box>
-                              ))}
-                              
-                              {message.result.starterSentences && (
-                                <Box w="100%">
-                                  <Text fontSize="xs" fontWeight="bold" color="brand.500" textTransform="uppercase" mb={1}>
-                                    Starter Sentences
-                                  </Text>
-                                  <VStack spacing={1} align="start">
-                                    {message.result.starterSentences.slice(0, 3).map((sentence: string, index: number) => (
-                                      <Text key={index} fontSize="sm" color="gray.600">
-                                        • {sentence}
-                                      </Text>
-                                    ))}
-                                  </VStack>
-                                </Box>
-                              )}
-                            </VStack>
-                          )}
-                        </Box>
+                      {message.sender === "agent" && (
+                        <HStack spacing={2} mt={2}>
+                          <Button
+                            size="xs"
+                            variant="outline"
+                            onClick={() => {
+                              navigator.clipboard.writeText(message.content);
+                              toast({
+                                title: "Copied",
+                                description: "Response copied to clipboard",
+                                status: "success",
+                                duration: 2000,
+                              });
+                            }}
+                          >
+                            Copy Response
+                          </Button>
+                        </HStack>
                       )}
                       
                       <Text fontSize="xs" opacity={0.7}>

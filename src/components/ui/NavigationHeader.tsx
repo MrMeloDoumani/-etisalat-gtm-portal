@@ -94,6 +94,14 @@ export function NavigationHeader() {
                 Planner
               </Button>
 
+              <Button
+                variant="ghost"
+                colorScheme="brand"
+                onClick={() => router.push("/melo-method")}
+              >
+                Melo Method
+              </Button>
+
               {canAccess("analytics") && (
                 <Button
                   variant="ghost"
