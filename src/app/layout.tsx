@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ChakraProvider } from "@chakra-ui/react";
-import { theme } from "@/lib/theme";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 import { GlobalFooter } from "@/components/ui/GlobalFooter";
 
@@ -22,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ChakraProvider theme={theme}>
+        <ChakraProvider>
           <AuthProvider>
             <div className="min-h-screen bg-white flex flex-col">
               <main className="flex-1">
