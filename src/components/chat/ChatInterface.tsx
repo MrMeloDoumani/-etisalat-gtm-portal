@@ -181,7 +181,7 @@ export function ChatInterface({ agent }: ChatInterfaceProps) {
                             size="xs"
                             variant="outline"
                             colorScheme={message.sender === "user" ? "whiteAlpha" : "brand"}
-                            onClick={() => setCurrentResult(message.result)}
+                            onClick={() => setCurrentResult(message.result || null)}
                           >
                             View Result
                           </Button>
