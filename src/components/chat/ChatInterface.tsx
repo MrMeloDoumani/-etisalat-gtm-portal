@@ -120,6 +120,7 @@ export function ChatInterface({ agent }: ChatInterfaceProps) {
 
       setMessages(prev => [...prev, agentMessage]);
       if (data.result) {
+        console.log("Setting result:", data.result); // Debug log
         setCurrentResult(data.result);
       }
 
