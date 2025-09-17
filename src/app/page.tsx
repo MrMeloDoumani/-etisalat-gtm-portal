@@ -84,6 +84,21 @@ export default function HomePage() {
       {/* Main Content */}
       <Container maxW="7xl" py={8}>
         <VStack spacing={12} align="start">
+          {/* Credit Message */}
+          <Box w="100%" textAlign="center" mt={4}>
+            <Text fontSize="sm" color="gray.600">
+              This project was created by{" "}
+              <a
+                href="https://www.mrmelo.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "#E30613", fontWeight: "500" }}
+              >
+                mrmelo.com
+              </a>
+            </Text>
+          </Box>
+
           {/* Team Directory Section */}
           <Box w="100%">
             <VStack spacing={6} align="start">
