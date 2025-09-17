@@ -12,7 +12,7 @@ import { AgentSelectorGrid } from "@/components/ui/AgentSelectorGrid";
 import { ChatModal } from "@/components/chat/ChatModal";
 import { ProjectStatusBoard } from "@/components/ui/ProjectStatusBoard";
 import { NavigationHeader } from "@/components/ui/NavigationHeader";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface TeamMember {
   name: string;
@@ -27,6 +27,13 @@ interface TeamMember {
 export default function HomePage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedAgent, setSelectedAgent] = useState<TeamMember | null>(null);
+
+  // Ensure modal closes when selectedAgent is cleared
+  useEffect(() => {
+    if (!selectedAgent && isOpen) {
+      onClose();
+    }
+  }, [selectedAgent, isOpen, onClose]);
 
   const handleAgentSelect = (agent: TeamMember) => {
     // Track usage
@@ -64,6 +71,8 @@ export default function HomePage() {
       }
     }
     
+    // Clear selected agent and close modal
+    setSelectedAgent(null);
     onClose();
   };
 
@@ -112,7 +121,7 @@ export default function HomePage() {
       {/* Chat Modal */}
       {selectedAgent && (
         <ChatModal
-          isOpen={isOpen}
+          isOpen={isOpen && !!selectedAgent}
           onClose={handleChatClose}
           agent={selectedAgent}
         />
