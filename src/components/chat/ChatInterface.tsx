@@ -174,9 +174,58 @@ export function ChatInterface({ agent }: ChatInterfaceProps) {
                       
                       {message.result && (
                         <Box mt={3} p={4} bg="gray.50" borderRadius="md" borderLeft="4px solid" borderColor="brand.500">
-                          <Badge colorScheme="green" size="sm" mb={3}>
-                            DEPA Framework Result
-                          </Badge>
+                          <HStack justify="space-between" mb={3}>
+                            <Badge colorScheme="green" size="sm">
+                              DEPA Framework Result
+                            </Badge>
+                            <HStack spacing={2}>
+                              <Button
+                                size="xs"
+                                variant="outline"
+                                onClick={() => {
+                                  const text = JSON.stringify(message.result, null, 2);
+                                  navigator.clipboard.writeText(text);
+                                  toast({
+                                    title: "Copied",
+                                    description: "Result copied to clipboard",
+                                    status: "success",
+                                    duration: 2000,
+                                  });
+                                }}
+                              >
+                                Copy
+                              </Button>
+                              <Button
+                                size="xs"
+                                colorScheme="brand"
+                                onClick={() => {
+                                  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(message.result, null, 2));
+                                  const downloadAnchorNode = document.createElement('a');
+                                  downloadAnchorNode.setAttribute("href", dataStr);
+                                  downloadAnchorNode.setAttribute("download", `depa-result-${Date.now()}.json`);
+                                  document.body.appendChild(downloadAnchorNode);
+                                  downloadAnchorNode.click();
+                                  downloadAnchorNode.remove();
+                                }}
+                              >
+                                Export
+                              </Button>
+                              <Button
+                                size="xs"
+                                colorScheme="orange"
+                                onClick={() => {
+                                  toast({
+                                    title: "Approval Requested",
+                                    description: "Content sent for approval workflow",
+                                    status: "info",
+                                    duration: 3000,
+                                  });
+                                }}
+                              >
+                                Request Approval
+                              </Button>
+                            </HStack>
+                          </HStack>
                           
                           {message.result.depa && (
                             <VStack spacing={3} align="start">

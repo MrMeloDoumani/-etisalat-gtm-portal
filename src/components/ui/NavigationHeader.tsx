@@ -8,11 +8,37 @@ import {
   Button,
   Link,
   VStack,
+  Badge,
+  Avatar,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
 } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+import { useRole } from "@/components/auth/RoleProvider";
 
 export function NavigationHeader() {
   const router = useRouter();
+  const pathname = usePathname();
+  const { currentUser, canAccess } = useRole();
+
+  const getBreadcrumbs = () => {
+    const paths = pathname.split("/").filter(Boolean);
+    const breadcrumbs = [{ name: "Home", href: "/" }];
+    
+    let currentPath = "";
+    paths.forEach(path => {
+      currentPath += `/${path}`;
+      const name = path.charAt(0).toUpperCase() + path.slice(1);
+      breadcrumbs.push({ name, href: currentPath });
+    });
+    
+    return breadcrumbs;
+  };
 
   return (
     <Box bg="white" borderBottom="1px" borderColor="gray.200" py={4}>
@@ -39,7 +65,7 @@ export function NavigationHeader() {
               </Text>
             </VStack>
 
-            {/* Right - Navigation Links */}
+            {/* Right - Navigation Links & User */}
             <HStack spacing={4}>
               <Button
                 variant="ghost"
@@ -67,16 +93,65 @@ export function NavigationHeader() {
               >
                 Planner
               </Button>
+
+              {canAccess("analytics") && (
+                <Button
+                  variant="ghost"
+                  colorScheme="brand"
+                  onClick={() => router.push("/analytics")}
+                >
+                  Analytics
+                </Button>
+              )}
               
-              <Button
-                variant="outline"
-                size="sm"
-                colorScheme="brand"
-              >
-                Demo Mode
-              </Button>
+              {/* User Menu */}
+              <Menu>
+                <MenuButton>
+                  <HStack spacing={2}>
+                    <Avatar size="sm" name={currentUser?.name} />
+                    <VStack spacing={0} align="start">
+                      <Text fontSize="sm" fontWeight="medium">
+                        {currentUser?.name}
+                      </Text>
+                      <Badge size="sm" colorScheme="green">
+                        {currentUser?.level === 1 ? "Director" : 
+                         currentUser?.level === 2 ? "Senior Manager" :
+                         currentUser?.level === 3 ? "Manager" : "Specialist"}
+                      </Badge>
+                    </VStack>
+                  </HStack>
+                </MenuButton>
+                <MenuList>
+                  <MenuItem onClick={() => router.push("/profile")}>
+                    Profile Settings
+                  </MenuItem>
+                  <MenuItem onClick={() => router.push("/permissions")}>
+                    Permissions
+                  </MenuItem>
+                  <MenuItem>
+                    Demo Mode
+                  </MenuItem>
+                </MenuList>
+              </Menu>
             </HStack>
           </HStack>
+
+          {/* Breadcrumbs */}
+          {pathname !== "/" && (
+            <Breadcrumb fontSize="sm" color="gray.600">
+              {getBreadcrumbs().map((crumb, index) => (
+                <BreadcrumbItem key={crumb.href}>
+                  <BreadcrumbLink 
+                    onClick={() => router.push(crumb.href)}
+                    cursor="pointer"
+                    _hover={{ color: "brand.500" }}
+                  >
+                    {crumb.name}
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+              ))}
+            </Breadcrumb>
+          )}
         </VStack>
       </Container>
     </Box>
