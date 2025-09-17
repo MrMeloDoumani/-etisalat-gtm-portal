@@ -5,19 +5,16 @@ import {
   VStack,
   HStack,
   Text,
-  Input,
   Button,
   Avatar,
   Card,
   CardBody,
-  IconButton,
   Textarea,
   Badge,
   Divider,
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/toast";
 import { useState, useRef, useEffect } from "react";
-import { DownloadIcon, CopyIcon } from "@chakra-ui/icons";
 import { ResultViewer } from "./ResultViewer";
 
 interface TeamMember {
@@ -35,7 +32,11 @@ interface Message {
   sender: "user" | "agent";
   content: string;
   timestamp: Date;
-  result?: any;
+  result?: {
+    depa?: Record<string, string>;
+    starterSentences?: string[];
+    [key: string]: unknown;
+  };
 }
 
 interface ChatInterfaceProps {
@@ -46,7 +47,11 @@ export function ChatInterface({ agent }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [currentResult, setCurrentResult] = useState<any>(null);
+  const [currentResult, setCurrentResult] = useState<{
+    depa?: Record<string, string>;
+    starterSentences?: string[];
+    [key: string]: unknown;
+  } | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const toast = useToast();
 
@@ -132,16 +137,6 @@ export function ChatInterface({ agent }: ChatInterfaceProps) {
     }
   };
 
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-    toast({
-      title: "Copied",
-      description: "Content copied to clipboard",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
-  };
 
   return (
     <HStack h="100%" spacing={0} align="stretch">

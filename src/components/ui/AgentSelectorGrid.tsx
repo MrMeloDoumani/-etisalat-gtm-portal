@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  Box,
   SimpleGrid,
   Card,
   CardBody,
@@ -30,7 +29,12 @@ interface AgentSelectorGridProps {
 }
 
 export function AgentSelectorGrid({ onAgentSelect }: AgentSelectorGridProps) {
-  const [teamData, setTeamData] = useState<any>(null);
+  const [teamData, setTeamData] = useState<{
+    director: TeamMember;
+    seniorManagers: TeamMember[];
+    managers: TeamMember[];
+    specialists: TeamMember[];
+  } | null>(null);
   const [loading, setLoading] = useState(true);
   const toast = useToast();
 
