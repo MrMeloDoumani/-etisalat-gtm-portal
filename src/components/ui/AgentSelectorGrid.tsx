@@ -36,7 +36,26 @@ export function AgentSelectorGrid({ onAgentSelect }: AgentSelectorGridProps) {
     specialists: TeamMember[];
   } | null>(null);
   const [loading, setLoading] = useState(true);
+  const [usageData, setUsageData] = useState<Record<string, any>>({});
   const toast = useToast();
+
+  const loadUsageData = () => {
+    const usage: Record<string, any> = {};
+    
+    // Load usage data from localStorage
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key?.startsWith('agent_')) {
+        const agentName = key.replace('agent_', '');
+        const data = localStorage.getItem(key);
+        if (data) {
+          usage[agentName] = JSON.parse(data);
+        }
+      }
+    }
+    
+    setUsageData(usage);
+  };
 
   useEffect(() => {
     // Load team hierarchy data
@@ -45,11 +64,19 @@ export function AgentSelectorGrid({ onAgentSelect }: AgentSelectorGridProps) {
       .then((data) => {
         setTeamData(data);
         setLoading(false);
+        loadUsageData();
       })
       .catch((error) => {
         console.error("Error loading team data:", error);
         setLoading(false);
       });
+      
+    // Load usage data on mount and when window gains focus
+    loadUsageData();
+    const handleFocus = () => loadUsageData();
+    window.addEventListener('focus', handleFocus);
+    
+    return () => window.removeEventListener('focus', handleFocus);
   }, []);
 
   const handleAgentClick = (agent: TeamMember) => {
@@ -97,9 +124,38 @@ export function AgentSelectorGrid({ onAgentSelect }: AgentSelectorGridProps) {
     }
   };
 
-  return (
+    const formatDuration = (seconds: number) => {
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+      
+      if (minutes > 0) {
+        return `${minutes}m ${remainingSeconds}s`;
+      }
+      return `${remainingSeconds}s`;
+    };
+
+    const formatLastUsed = (dateString: string) => {
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffMs = now.getTime() - date.getTime();
+      const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      
+      if (diffDays > 0) {
+        return `${diffDays}d ago`;
+      } else if (diffHours > 0) {
+        return `${diffHours}h ago`;
+      } else {
+        return "Recently";
+      }
+    };
+
+    return (
     <SimpleGrid columns={{ base: 1, md: 2, lg: 3, xl: 4 }} spacing={6} w="100%">
-      {allMembers.map((member) => (
+      {allMembers.map((member) => {
+        const usage = usageData[member.name];
+        
+        return (
         <Card
           key={member.name}
           cursor="pointer"
@@ -153,15 +209,30 @@ export function AgentSelectorGrid({ onAgentSelect }: AgentSelectorGridProps) {
                 </VStack>
               </VStack>
 
-              <HStack spacing={2}>
-                <Badge
-                  colorScheme={member.agentImplemented ? "green" : "gray"}
-                  variant="outline"
-                  fontSize="xs"
-                >
-                  {member.agentImplemented ? "AI Available" : "Coming Soon"}
-                </Badge>
-              </HStack>
+              <VStack spacing={2} w="100%">
+                <HStack spacing={2} justify="center">
+                  <Badge
+                    colorScheme={member.agentImplemented ? "green" : "gray"}
+                    variant="outline"
+                    fontSize="xs"
+                  >
+                    {member.agentImplemented ? "AI Available" : "Coming Soon"}
+                  </Badge>
+                </HStack>
+                
+                {usage && member.agentImplemented && (
+                  <VStack spacing={1} w="100%">
+                    <Text fontSize="xs" color="gray.500" textAlign="center">
+                      Last used: {formatLastUsed(usage.lastUsed)}
+                    </Text>
+                    {usage.lastDuration && (
+                      <Text fontSize="xs" color="gray.500" textAlign="center">
+                        Duration: {formatDuration(usage.lastDuration)}
+                      </Text>
+                    )}
+                  </VStack>
+                )}
+              </VStack>
 
               {member.agentImplemented && (
                 <Button
@@ -180,7 +251,8 @@ export function AgentSelectorGrid({ onAgentSelect }: AgentSelectorGridProps) {
             </VStack>
           </CardBody>
         </Card>
-      ))}
+        );
+      })}
     </SimpleGrid>
   );
 }

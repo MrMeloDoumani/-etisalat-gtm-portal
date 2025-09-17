@@ -26,8 +26,6 @@ interface ResultViewerProps {
 export function ResultViewer({ result }: ResultViewerProps) {
   const [viewMode, setViewMode] = useState<"formatted" | "json">("formatted");
   const toast = useToast();
-  
-  console.log("ResultViewer received:", result); // Debug log
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);

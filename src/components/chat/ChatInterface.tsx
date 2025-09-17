@@ -120,7 +120,6 @@ export function ChatInterface({ agent }: ChatInterfaceProps) {
 
       setMessages(prev => [...prev, agentMessage]);
       if (data.result) {
-        console.log("Setting result:", data.result); // Debug log
         setCurrentResult(data.result);
       }
 
@@ -174,18 +173,40 @@ export function ChatInterface({ agent }: ChatInterfaceProps) {
                       <Text fontSize="sm">{message.content}</Text>
                       
                       {message.result && (
-                        <Box>
-                          <Badge colorScheme="green" size="sm" mb={2}>
-                            DEPA Result Generated
+                        <Box mt={3} p={4} bg="gray.50" borderRadius="md" borderLeft="4px solid" borderColor="brand.500">
+                          <Badge colorScheme="green" size="sm" mb={3}>
+                            DEPA Framework Result
                           </Badge>
-                          <Button
-                            size="xs"
-                            variant="outline"
-                            colorScheme={message.sender === "user" ? "whiteAlpha" : "brand"}
-                            onClick={() => setCurrentResult(message.result || null)}
-                          >
-                            View Result
-                          </Button>
+                          
+                          {message.result.depa && (
+                            <VStack spacing={3} align="start">
+                              {Object.entries(message.result.depa).map(([key, value]) => (
+                                <Box key={key} w="100%">
+                                  <Text fontSize="xs" fontWeight="bold" color="brand.500" textTransform="uppercase" mb={1}>
+                                    {key}
+                                  </Text>
+                                  <Text fontSize="sm" color="gray.700" whiteSpace="pre-wrap">
+                                    {value as string}
+                                  </Text>
+                                </Box>
+                              ))}
+                              
+                              {message.result.starterSentences && (
+                                <Box w="100%">
+                                  <Text fontSize="xs" fontWeight="bold" color="brand.500" textTransform="uppercase" mb={1}>
+                                    Starter Sentences
+                                  </Text>
+                                  <VStack spacing={1} align="start">
+                                    {message.result.starterSentences.slice(0, 3).map((sentence: string, index: number) => (
+                                      <Text key={index} fontSize="sm" color="gray.600">
+                                        • {sentence}
+                                      </Text>
+                                    ))}
+                                  </VStack>
+                                </Box>
+                              )}
+                            </VStack>
+                          )}
                         </Box>
                       )}
                       
@@ -257,15 +278,6 @@ export function ChatInterface({ agent }: ChatInterfaceProps) {
         </Box>
       </VStack>
 
-      {/* Results Panel */}
-      {currentResult && (
-        <>
-          <Divider orientation="vertical" />
-          <Box w="400px" h="100%" bg="white">
-            <ResultViewer result={currentResult} />
-          </Box>
-        </>
-      )}
     </HStack>
   );
 }

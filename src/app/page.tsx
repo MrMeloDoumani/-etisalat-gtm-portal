@@ -13,7 +13,8 @@ import {
 import { AgentSelectorGrid } from "@/components/ui/AgentSelectorGrid";
 import { ChatModal } from "@/components/chat/ChatModal";
 import { ProjectStatusBoard } from "@/components/ui/ProjectStatusBoard";
-import { useState } from "react";
+import { NavigationHeader } from "@/components/ui/NavigationHeader";
+import { useState, useEffect } from "react";
 
 interface TeamMember {
   name: string;
@@ -30,38 +31,48 @@ export default function HomePage() {
   const [selectedAgent, setSelectedAgent] = useState<TeamMember | null>(null);
 
   const handleAgentSelect = (agent: TeamMember) => {
+    // Track usage
+    const now = new Date();
+    const usageData = {
+      agentName: agent.name,
+      lastUsed: now.toISOString(),
+      sessionStart: now.toISOString(),
+    };
+    
+    localStorage.setItem(`agent_${agent.name}`, JSON.stringify(usageData));
     setSelectedAgent(agent);
     onOpen();
   };
 
+  const handleChatClose = () => {
+    // Track session duration
+    if (selectedAgent) {
+      const usageKey = `agent_${selectedAgent.name}`;
+      const storedData = localStorage.getItem(usageKey);
+      
+      if (storedData) {
+        const data = JSON.parse(storedData);
+        const sessionEnd = new Date();
+        const sessionStart = new Date(data.sessionStart);
+        const duration = Math.round((sessionEnd.getTime() - sessionStart.getTime()) / 1000); // seconds
+        
+        const updatedData = {
+          ...data,
+          lastDuration: duration,
+          totalSessions: (data.totalSessions || 0) + 1,
+        };
+        
+        localStorage.setItem(usageKey, JSON.stringify(updatedData));
+      }
+    }
+    
+    onClose();
+  };
+
   return (
     <Box minH="100vh" bg="white">
-      {/* Header */}
-      <Box bg="white" borderBottom="1px" borderColor="gray.200" py={6}>
-        <Container maxW="7xl">
-          <VStack spacing={4} align="start">
-            <HStack justify="space-between" w="100%">
-              <VStack align="start" spacing={1}>
-                <Heading size="xl" color="brand.500">
-                  e& GTM Director Portal
-                </Heading>
-                <Text color="gray.600" fontSize="lg">
-                  Go-to-Market Operations Hub
-                </Text>
-              </VStack>
-              
-              <HStack spacing={4}>
-                <Text fontSize="sm" color="gray.500">
-                  Demo Environment
-                </Text>
-                <Button variant="outline" size="sm">
-                  Settings
-                </Button>
-              </HStack>
-            </HStack>
-          </VStack>
-        </Container>
-      </Box>
+      {/* Navigation Header */}
+      <NavigationHeader />
 
       {/* Main Content */}
       <Container maxW="7xl" py={8}>
@@ -104,7 +115,7 @@ export default function HomePage() {
       {selectedAgent && (
         <ChatModal
           isOpen={isOpen}
-          onClose={onClose}
+          onClose={handleChatClose}
           agent={selectedAgent}
         />
       )}
