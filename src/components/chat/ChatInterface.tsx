@@ -16,6 +16,7 @@ import {
 import { useToast } from "@chakra-ui/toast";
 import { useState, useRef, useEffect } from "react";
 import { ResultViewer } from "./ResultViewer";
+import { documentExporter, DocumentData, ExportOptions } from "@/lib/documentExport";
 
 interface TeamMember {
   name: string;
@@ -201,8 +202,54 @@ export function ChatInterface({ agent }: ChatInterfaceProps) {
     }
   };
 
+  const exportConversation = async (format: 'pdf' | 'docx' | 'html' | 'txt') => {
+    try {
+      const conversationContent = messages.map(msg => 
+        `${msg.sender === 'user' ? 'You' : agent.name}: ${msg.content}`
+      ).join('\n\n');
+
+      const documentData: DocumentData = {
+        title: `Conversation with ${agent.name}`,
+        content: conversationContent,
+        author: `${agent.name} (${agent.role})`,
+        createdAt: new Date(),
+        agent: agent.name,
+        images: messages
+          .filter(msg => msg.generatedImage)
+          .map(msg => msg.generatedImage!)
+      };
+
+      const exportOptions: ExportOptions = {
+        format,
+        template: "business",
+        includeImages: true,
+        addBranding: true
+      };
+
+      const blob = await documentExporter.exportDocument(documentData, exportOptions);
+      const filename = `conversation-${agent.name.replace(/\s+/g, '-')}-${Date.now()}.${format}`;
+      
+      documentExporter.downloadBlob(blob, filename);
+
+      toast({
+        title: "Export Successful",
+        description: `Conversation exported as ${format.toUpperCase()}`,
+        status: "success",
+        duration: 3000,
+      });
+    } catch (error) {
+      console.error("Export failed:", error);
+      toast({
+        title: "Export Failed",
+        description: "Unable to export conversation",
+        status: "error",
+        duration: 3000,
+      });
+    }
+  };
+
   return (
-    <HStack h="100%" spacing={0} align="stretch">
+    <VStack h="100%" spacing={0} align="stretch">
       {/* Chat Area */}
       <VStack flex="1" h="100%" spacing={0} bg="gray.50">
         {/* Messages */}
@@ -236,34 +283,45 @@ export function ChatInterface({ agent }: ChatInterfaceProps) {
                       <Text fontSize="sm" whiteSpace="pre-wrap">{message.content}</Text>
                       
                       {message.sender === "agent" && (
-                        <HStack spacing={2} mt={2}>
-                          <Button
-                            size="xs"
-                            variant="outline"
-                            onClick={() => {
-                              navigator.clipboard.writeText(message.content);
-                              toast({
-                                title: "Copied",
-                                description: "Response copied to clipboard",
-                                status: "success",
-                                duration: 2000,
-                              });
-                            }}
-                          >
-                            Copy Response
-                          </Button>
-                          
-                          {message.hasImageGeneration && (
+                        <VStack spacing={2} mt={2} w="100%" align="start">
+                          <HStack spacing={2} wrap="wrap">
                             <Button
-                              size="xs"
-                              colorScheme="brand"
-                              onClick={() => generateImage(message)}
-                              isLoading={isGeneratingImage}
+                              size={{ base: "sm", md: "xs" }}
+                              variant="outline"
+                              onClick={() => {
+                                navigator.clipboard.writeText(message.content);
+                                toast({
+                                  title: "Copied",
+                                  description: "Response copied to clipboard",
+                                  status: "success",
+                                  duration: 2000,
+                                });
+                              }}
                             >
-                              🎨 Generate {message.imageType || 'Image'}
+                              📋 Copy
                             </Button>
-                          )}
-                        </HStack>
+                            
+                            {message.hasImageGeneration && (
+                              <Button
+                                size={{ base: "sm", md: "xs" }}
+                                colorScheme="brand"
+                                onClick={() => generateImage(message)}
+                                isLoading={isGeneratingImage}
+                              >
+                                🎨 Generate {message.imageType || 'Image'}
+                              </Button>
+                            )}
+                            
+                            <Button
+                              size={{ base: "sm", md: "xs" }}
+                              variant="outline"
+                              colorScheme="green"
+                              onClick={() => exportConversation('pdf')}
+                            >
+                              📄 Export PDF
+                            </Button>
+                          </HStack>
+                        </VStack>
                       )}
 
                       {message.generatedImage && (

@@ -1,4 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 interface ImageGenerationRequest {
   type: "flyer" | "brochure" | "poster" | "social";
@@ -25,19 +30,41 @@ export async function POST(request: NextRequest) {
     
     const designPrompt = createDesignPrompt(type, content);
     
-    // Simulate image generation with canvas (for demo)
-    const imageDataUrl = await generateMockImage(type, content, dimensions);
+    let imageUrl = "";
+    
+    // Try real DALL-E generation first, fallback to SVG
+    if (process.env.OPENAI_API_KEY) {
+      try {
+        const dalleResponse = await openai.images.generate({
+          model: "dall-e-3",
+          prompt: designPrompt,
+          n: 1,
+          size: dimensions.width >= 1024 ? "1024x1024" : "512x512",
+          quality: "hd",
+          style: "natural"
+        });
+        
+        imageUrl = dalleResponse.data[0].url || "";
+      } catch (error) {
+        console.error("DALL-E generation failed, using fallback:", error);
+        imageUrl = await generateMockImage(type, content, dimensions);
+      }
+    } else {
+      // Fallback to SVG generation
+      imageUrl = await generateMockImage(type, content, dimensions);
+    }
     
     return NextResponse.json({
       success: true,
-      imageUrl: imageDataUrl,
-      downloadUrl: imageDataUrl,
+      imageUrl: imageUrl,
+      downloadUrl: imageUrl,
       designPrompt,
+      isDalleGenerated: !!process.env.OPENAI_API_KEY,
       metadata: {
         type,
         dimensions,
         generatedAt: new Date().toISOString(),
-        format: "PNG"
+        format: imageUrl.includes("dall-e") ? "PNG" : "SVG"
       }
     });
 
