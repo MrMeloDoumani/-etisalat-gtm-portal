@@ -17,6 +17,15 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  IconButton,
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure,
+  Stack,
 } from "@chakra-ui/react";
 import { useRouter, usePathname } from "next/navigation";
 import { useRole } from "@/components/auth/RoleProvider";
@@ -25,6 +34,7 @@ export function NavigationHeader() {
   const router = useRouter();
   const pathname = usePathname();
   const { currentUser, canAccess } = useRole();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const getBreadcrumbs = () => {
     const paths = pathname.split("/").filter(Boolean);
@@ -162,6 +172,91 @@ export function NavigationHeader() {
           )}
         </VStack>
       </Container>
+
+      {/* Mobile Navigation Drawer */}
+      <Drawer isOpen={isOpen} onClose={onClose} placement="right">
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>
+            <Text>Navigation</Text>
+          </DrawerHeader>
+          <DrawerBody>
+            <Stack spacing={4}>
+              <Button
+                variant="ghost"
+                colorScheme="brand"
+                onClick={() => { router.push("/"); onClose(); }}
+                justifyContent="flex-start"
+              >
+                👥 Agents
+              </Button>
+
+              <Button
+                variant="ghost"
+                colorScheme="brand"
+                as={Link}
+                href="https://www.etisalat.ae/en/smb/index.html"
+                target="_blank"
+                _hover={{ textDecoration: "none" }}
+                justifyContent="flex-start"
+              >
+                🌐 e& Website
+              </Button>
+
+              <Button
+                variant="ghost"
+                colorScheme="brand"
+                onClick={() => { router.push("/planner"); onClose(); }}
+                justifyContent="flex-start"
+              >
+                📋 Planner
+              </Button>
+
+              <Button
+                variant="ghost"
+                colorScheme="brand"
+                onClick={() => { router.push("/melo-method"); onClose(); }}
+                justifyContent="flex-start"
+              >
+                🎯 Melo Method
+              </Button>
+
+              {canAccess("analytics") && (
+                <Button
+                  variant="ghost"
+                  colorScheme="brand"
+                  onClick={() => { router.push("/analytics"); onClose(); }}
+                  justifyContent="flex-start"
+                >
+                  📊 Analytics
+                </Button>
+              )}
+
+              <Divider />
+
+              <VStack align="start" spacing={2}>
+                <Text fontSize="sm" fontWeight="medium" color="gray.600">
+                  User Profile
+                </Text>
+                <HStack spacing={2}>
+                  <Avatar size="sm" name={currentUser?.name} />
+                  <VStack align="start" spacing={0}>
+                    <Text fontSize="sm" fontWeight="medium">
+                      {currentUser?.name}
+                    </Text>
+                    <Badge size="sm" colorScheme="green">
+                      {currentUser?.level === 1 ? "Director" :
+                       currentUser?.level === 2 ? "Senior Manager" :
+                       currentUser?.level === 3 ? "Manager" : "Specialist"}
+                    </Badge>
+                  </VStack>
+                </HStack>
+              </VStack>
+            </Stack>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </Box>
   );
 }

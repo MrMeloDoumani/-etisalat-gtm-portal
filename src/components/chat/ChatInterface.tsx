@@ -17,6 +17,8 @@ import { useToast } from "@chakra-ui/toast";
 import { useState, useRef, useEffect } from "react";
 import { ResultViewer } from "./ResultViewer";
 import { documentExporter, DocumentData, ExportOptions } from "@/lib/documentExport";
+import { emailService } from "@/lib/emailService";
+import { revisionHistory } from "@/lib/revisionHistory";
 
 interface TeamMember {
   name: string;
@@ -52,6 +54,8 @@ export function ChatInterface({ agent }: ChatInterfaceProps) {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
+  const [showRevisionHistory, setShowRevisionHistory] = useState(false);
   const [currentResult, setCurrentResult] = useState<{
     depa?: Record<string, string>;
     starterSentences?: string[];
@@ -248,6 +252,73 @@ export function ChatInterface({ agent }: ChatInterfaceProps) {
     }
   };
 
+  const shareConversation = async () => {
+    setIsSharing(true);
+    try {
+      const recipients = prompt("Enter email addresses (comma-separated):");
+      if (!recipients) return;
+
+      const emailList = recipients.split(',').map(email => email.trim());
+      
+      const result = await emailService.shareConversation(
+        {
+          agent: agent.name,
+          messages: messages
+        },
+        emailList,
+        `Conversation with ${agent.name} from e& GTM Portal`
+      );
+
+      if (result.success) {
+        toast({
+          title: "Conversation Shared",
+          description: `Sent to ${emailList.length} recipient(s)`,
+          status: "success",
+          duration: 3000,
+        });
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      console.error("Sharing failed:", error);
+      toast({
+        title: "Sharing Failed",
+        description: "Unable to share conversation",
+        status: "error",
+        duration: 3000,
+      });
+    } finally {
+      setIsSharing(false);
+    }
+  };
+
+  const saveRevision = () => {
+    const conversationId = `conversation-${agent.name}-${Date.now()}`;
+    const content = messages.map(msg => 
+      `${msg.sender === 'user' ? 'You' : agent.name}: ${msg.content}`
+    ).join('\n\n');
+
+    revisionHistory.createRevision(
+      conversationId,
+      content,
+      'conversation',
+      'Current User',
+      'Conversation saved',
+      {
+        agent: agent.name,
+        messageCount: messages.length,
+        hasImages: messages.some(msg => msg.generatedImage)
+      }
+    );
+
+    toast({
+      title: "Revision Saved",
+      description: "Conversation saved to revision history",
+      status: "success",
+      duration: 2000,
+    });
+  };
+
   return (
     <VStack h="100%" spacing={0} align="stretch">
       {/* Chat Area */}
@@ -319,6 +390,25 @@ export function ChatInterface({ agent }: ChatInterfaceProps) {
                               onClick={() => exportConversation('pdf')}
                             >
                               📄 Export PDF
+                            </Button>
+                            
+                            <Button
+                              size={{ base: "sm", md: "xs" }}
+                              variant="outline"
+                              colorScheme="blue"
+                              onClick={shareConversation}
+                              isLoading={isSharing}
+                            >
+                              📧 Share
+                            </Button>
+                            
+                            <Button
+                              size={{ base: "sm", md: "xs" }}
+                              variant="outline"
+                              colorScheme="purple"
+                              onClick={saveRevision}
+                            >
+                              💾 Save
                             </Button>
                           </HStack>
                         </VStack>
