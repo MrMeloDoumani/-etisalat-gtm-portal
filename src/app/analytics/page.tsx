@@ -104,7 +104,7 @@ export default function AnalyticsPage() {
           <VStack spacing={6} textAlign="center">
             <Heading size="lg" color="red.500">Access Denied</Heading>
             <Text color="gray.600">
-              You don't have permission to view analytics. Please contact your administrator.
+              You don&apos;t have permission to view analytics. Please contact your administrator.
             </Text>
             <Button colorScheme="brand" onClick={() => router.push("/")}>
               Return to Home

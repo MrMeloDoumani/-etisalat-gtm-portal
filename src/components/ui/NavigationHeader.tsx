@@ -139,7 +139,7 @@ export function NavigationHeader() {
           {/* Breadcrumbs */}
           {pathname !== "/" && (
             <Breadcrumb fontSize="sm" color="gray.600">
-              {getBreadcrumbs().map((crumb, index) => (
+              {getBreadcrumbs().map((crumb) => (
                 <BreadcrumbItem key={crumb.href}>
                   <BreadcrumbLink 
                     onClick={() => router.push(crumb.href)}
